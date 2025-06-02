@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Chat Broadcast</title>
+</head>
+<body>
+  <h1>Chat</h1>
+  <input id="msg" autocomplete="off" />
+  <button onclick="enviar()">Enviar</button>
+  <ul id="mensajes"></ul>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+
+    function enviar() {
+      const input = document.getElementById('msg');
+      socket.emit('mensaje', input.value);
+      input.value = '';
+    }
+
+    socket.on('mensaje', (msg) => {
+      const li = document.createElement('li');
+      li.textContent = msg;
+      document.getElementById('mensajes').appendChild(li);
+    });
+  </script>
+</body>
+</html>
